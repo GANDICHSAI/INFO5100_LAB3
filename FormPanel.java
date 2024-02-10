@@ -77,6 +77,11 @@ public class FormPanel extends javax.swing.JPanel {
                 firstNameValueActionPerformed(evt);
             }
         });
+        firstNameValue.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                firstNameValueKeyPressed(evt);
+            }
+        });
 
         onSubmit.setText("SUBMIT");
         onSubmit.addActionListener(new java.awt.event.ActionListener() {
@@ -123,6 +128,11 @@ public class FormPanel extends javax.swing.JPanel {
         lastNameValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lastNameValueActionPerformed(evt);
+            }
+        });
+        lastNameValue.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lastNameValueKeyPressed(evt);
             }
         });
 
@@ -262,6 +272,29 @@ public class FormPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void radioButtonFieldValidation(){
+        try{
+            if (radioButtonGroup.getSelection().toString()== null ||radioButtonGroup.getSelection().toString().isEmpty()){
+                throw new Exception();
+            }
+        }
+        
+        catch (Exception e){
+            JOptionPane.showMessageDialog(this,"Gender is not selected, please choose the gender","Validation Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void messageTextBoxValidation(){
+        try{
+            if (messageValue.getText()== null ||messageValue.getText().isEmpty()){
+                throw new IllegalArgumentException("Please provide your past medical history");
+            }
+        }
+        
+        catch (IllegalArgumentException e){
+            JOptionPane.showMessageDialog(this,e.getMessage(),"Validation Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }
     private void firstNameValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameValueActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_firstNameValueActionPerformed
@@ -278,19 +311,25 @@ public class FormPanel extends javax.swing.JPanel {
         ImageIcon scaledIcon = new ImageIcon(image);
         
         User user = new User();
-        if (firstNameValue.getText() == null || firstNameValue.getText().isEmpty() || lastNameValue.getText() == null || lastNameValue.getText().isEmpty() || ageValue.getText() == null || ageValue.getText().isEmpty() || emailValue.getText() == null || emailValue.getText().isEmpty() || radioButtonGroup.getSelection().getActionCommand() == null || radioButtonGroup.getSelection().getActionCommand().isEmpty()||imagePath == null || imagePath.isEmpty()||messageValue.getText() == null || messageValue.getText().isEmpty()) {
+        if (firstNameValue.getText() == null || firstNameValue.getText().isEmpty() || lastNameValue.getText() == null || lastNameValue.getText().isEmpty() || ageValue.getText() == null || ageValue.getText().isEmpty() || emailValue.getText() == null || emailValue.getText().isEmpty() || imagePath == null || imagePath.isEmpty()) {
  
             JOptionPane.showMessageDialog(this, "Please provide all the values mentioned in the form and upload the image", "Form Error", JOptionPane.ERROR_MESSAGE);        
             
         }
         else{
+            
+   
             user.setFirstName(firstNameValue.getText());
             user.setLastName(lastNameValue.getText());
             user.setAge(ageValue.getText());
             user.setEmail(emailValue.getText());
+            radioButtonFieldValidation();
             user.setGender(radioButtonGroup.getSelection().getActionCommand());
             user.setPatientType(patientTypeDropDown.getSelectedItem().toString());
+            messageTextBoxValidation();
             user.setMessage(messageValue.getText());
+                
+          
         }
         
         
@@ -376,6 +415,52 @@ public class FormPanel extends javax.swing.JPanel {
             
         }
     }//GEN-LAST:event_photoUploadButtonActionPerformed
+
+    private void firstNameValueKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_firstNameValueKeyPressed
+        // TODO add your handling code here:
+        
+        try{
+             
+             if (firstNameValue.getText().matches("^[A-Za-z][a-zA-Z ]+$")){
+                 
+                 firstNameValue.setForeground(Color.black);
+
+            }
+            
+            else{
+                throw new Exception();
+            }
+                        
+        }
+        catch(Exception e){
+            
+            firstNameValue.setForeground(Color.red);
+
+        }
+    }//GEN-LAST:event_firstNameValueKeyPressed
+
+    private void lastNameValueKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lastNameValueKeyPressed
+        // TODO add your handling code here:
+        
+        try{
+             
+             if (lastNameValue.getText().matches("^[A-Za-z][a-zA-Z ]+$")){
+                 
+                 lastNameValue.setForeground(Color.black);
+
+            }
+            
+            else{
+                throw new Exception();
+            }
+                        
+        }
+        catch(Exception e){
+            
+            lastNameValue.setForeground(Color.red);
+
+        }
+    }//GEN-LAST:event_lastNameValueKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
